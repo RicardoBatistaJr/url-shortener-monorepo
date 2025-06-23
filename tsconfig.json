@@ -1,9 +1,51 @@
 {
   "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2021",
+    "sourceMap": true,
+    "outDir": "./dist",
     "baseUrl": ".",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@libs/*": ["libs/*"],
-      "@apps/*": ["apps/*/src"]
+      "@app/database": ["libs/database/src/index.ts"],
+      "@app/database/*": ["libs/database/src/*"],
+      "@libs/database": ["libs/database/src"],
+      "@libs/database/*": ["libs/database/src/*"]
     }
   }
 }
+// {
+//   "compilerOptions": {
+//     "baseUrl": ".",
+//     "paths": {
+//       "@libs/*": [
+//         "libs/*"
+//       ],
+//       "@apps/*": [
+//         "apps/*/src"
+//       ],
+//       "@prisma/*": [
+//         "prisma/*"
+//       ],
+//       "default/database": [
+//         "libs/database/src"
+//       ],
+//       "default/database/*": [
+//         "libs/database/src/*"
+//       ],
+//       "@your-workspace/database": ["libs/database/src/index.ts"],
+//       "@your-workspace/database/*": ["libs/database/src/*"],
+//     }
+//   }
+// }

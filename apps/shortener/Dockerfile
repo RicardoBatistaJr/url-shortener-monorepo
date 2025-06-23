@@ -1,0 +1,15 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+COPY nest-cli.json ./
+COPY tsconfig*.json ./
+COPY apps ./apps
+COPY libs ./libs
+
+RUN npm install
+
+RUN npm run build -- apps/shortener
+
+CMD ["node", "dist/apps/shortener/main.js"]
