@@ -1,0 +1,15 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY . .
+
+RUN npm install
+
+RUN npx prisma generate --schema=prisma/schema.prisma
+
+RUN chmod +x entrypoint.sh
+
+RUN npx nest build shortener
+
+CMD ["node", "dist/apps/shortener/main.js", "./entrypoint.sh"]

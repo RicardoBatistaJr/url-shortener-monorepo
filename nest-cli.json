@@ -10,7 +10,7 @@
     "shortener": {
       "type": "application",
       "root": "apps/shortener",
-      "sourceRoot": "src",
+      "sourceRoot": "apps/shortener/src",
       "entryFile": "main",
       "compilerOptions": {
         "tsConfigPath": "apps/shortener/tsconfig.app.json"

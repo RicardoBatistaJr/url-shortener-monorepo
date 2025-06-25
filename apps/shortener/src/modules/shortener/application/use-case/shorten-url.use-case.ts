@@ -32,11 +32,10 @@ export class ShortenUrlUseCase {
 
 				await this.repository.create(shortUrl);
 
-				const shortenedLink = "www.localhost.com/" + generatedCode;
+				const shortenedLink = process.env.BASE_URL + generatedCode;
+				
 				return { shortenedLink };
 			}
-
-            console.log(`Code ${generatedCode} already exists, retrying... (${attempt + 1}/${maxRetries})`);
 
 		}
 		throw new Error('Failed to generate unique short code after maximum retries');

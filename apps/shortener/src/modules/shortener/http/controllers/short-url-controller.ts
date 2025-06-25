@@ -4,14 +4,14 @@ import { ShortenedLinkResponse, ShortenUrlRequest } from "../../application/dto/
 import { FindByShortCodeUseCase } from "../../application/use-case/find-by-short-code.use-case";
 import { Response } from 'express';
 
-@Controller('shorten')
+@Controller()
 export class ShortUrlController {
 	constructor(
 		private readonly shortenUrlUseCase: ShortenUrlUseCase,
 		private readonly findByShortCodeUseCase: FindByShortCodeUseCase,
 	){}
 
-	@Post()
+	@Post('/shorten')
 	async shorten(@Body() request: ShortenUrlRequest) : Promise<ShortenedLinkResponse> {
 		return await this.shortenUrlUseCase.execute(request);
 	}

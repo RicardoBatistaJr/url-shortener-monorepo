@@ -12,7 +12,7 @@ export class PrismaShortUrlRepository implements ShortUrlRepository {
 	){}
 	async create(shortUrl: ShortUrl): Promise<void> {
 		const shortUrlRaw = PrismaShortUrlMapper.toPrisma(shortUrl);
-
+		
 		await this.prisma.shortUrl.create({
 			data: shortUrlRaw
 		})
