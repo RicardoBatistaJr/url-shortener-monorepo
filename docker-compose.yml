@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  traefik:
+    image: traefik:v2.11
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8081:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  shortener:
+    build:
+      context: .
+      dockerfile: Dockerfile.shortener
+    ports:
+      - "3000:3000"
+    depends_on:
+      - database
+    env_file:
+      - ./apps/shortener/.env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.shortener.rule=PathPrefix(`/`)"
+      - "traefik.http.services.shortener.loadbalancer.server.port=3000"
+
+  database:
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
