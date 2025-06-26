@@ -1,9 +1,14 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+	"types": ["node", "express"],
+	"typeRoots": [
+      "./node_modules/@types",
+      "../../node_modules/@types"
+    ],
     "declaration": false,
     "outDir": "../../dist/apps/shortener"
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
+  "exclude": ["node_modules", "dist", "test", "**/*spec.ts"],
 }

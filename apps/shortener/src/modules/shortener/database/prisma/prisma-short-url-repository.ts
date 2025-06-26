@@ -18,9 +18,43 @@ export class PrismaShortUrlRepository implements ShortUrlRepository {
 		})
 	}
 
+	async findById(id: string): Promise<ShortenUrlResponse> {
+		return await this.prisma.shortUrl.findUnique({
+			where: { id, deletedAt: null }
+		});
+	}
 	async findByShortCode(shortCode: string): Promise<ShortenUrlResponse> {
 		return await this.prisma.shortUrl.findUnique({
-			where: { shortCode }
+			where: { shortCode, deletedAt: null }
 		});
+	}
+
+	async findByUserIdAndShortCode(userId: string, shortCode: string): Promise<ShortenUrlResponse> {
+				return await this.prisma.shortUrl.findFirst({
+			where: { shortCode , userId, deletedAt: null }
+		});
+	}
+	async findByUser(userId: string): Promise<ShortenUrlResponse[]> {
+		return await this.prisma.shortUrl.findMany({
+			where: { userId , deletedAt: null }
+		});
+	}
+
+	async softDeleteByRecord(record: ShortenUrlResponse): Promise<void> {
+		this.prisma.shortUrl.update({
+			where: {
+			id: record.id,
+			},
+			data: {
+			deletedAt: new Date(),
+			},
+  		});
+	}
+
+	async updateOriginalUrl(id: string, updatedUrl: string):Promise<ShortenUrlResponse>{
+		return await this.prisma.shortUrl.update({
+			where: { id, deletedAt:null },
+			data:{ originalUrl: updatedUrl}
+		})
 	}
 }

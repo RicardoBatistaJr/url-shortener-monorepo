@@ -8,6 +8,5 @@ export class ClickEvent {
     public ipAddress: string,
     public clickedAt: Date,
     public referer?: string,
-    public shortUrl?: ShortUrl,
   ) {}
 }

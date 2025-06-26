@@ -6,6 +6,7 @@ import { ShortUrlRepository } from "../../database/short-url-repository";
 import { SHORT_URL_REPOSITORY_TOKEN } from "../../infrastructure/tokens/tokens";
 import { UrlExistsUseCase } from "./url-exists.use-case";
 import { ShortenedLinkResponse, ShortenUrlRequest } from "../dto/shorten-url.dto";
+import { JwtValidatedUser } from "../dto/jwt-validated-user.dto";
 
 @Injectable()
 export class ShortenUrlUseCase {
@@ -15,8 +16,7 @@ export class ShortenUrlUseCase {
 		private readonly urlExistsUseCase: UrlExistsUseCase,
 	) {}
 
-	async execute(request: ShortenUrlRequest):Promise<ShortenedLinkResponse>{
-
+	async execute(request: ShortenUrlRequest, user?: JwtValidatedUser):Promise<ShortenedLinkResponse>{
 		const maxRetries = 5;
 
 		for(let attempt = 0; attempt <= maxRetries; attempt++){
@@ -26,8 +26,8 @@ export class ShortenUrlUseCase {
 			if(!urlExists){
 				const shortUrl = ShortUrl.create(request.originalUrl, generatedCode);
 
-				if(request.userId){
-					shortUrl.userId = request.userId;
+				if(user){
+					shortUrl.userId = user.id;
 				}
 
 				await this.repository.create(shortUrl);
@@ -38,7 +38,7 @@ export class ShortenUrlUseCase {
 			}
 
 		}
-		throw new Error('Failed to generate unique short code after maximum retries');
+		throw new Error('Falha ao gerar código único após o máximo de tentativas.');
 	}
 
 	private generateCode(): string{

@@ -1,6 +1,8 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+	"typeRoots": ["../../../node_modules/@types", "./types"],
+    "types": ["node", "express"],
     "declaration": false,
     "outDir": "../../dist/apps/shortener"
   },

@@ -1,8 +1,8 @@
 export interface ShortenUrlRequest {
-	userId?: string,
 	originalUrl: string
 }
 export interface ShortenUrlResponse {
+	id: string,
 	shortCode: string,
 	originalUrl: string,
 	clickCount: number,
