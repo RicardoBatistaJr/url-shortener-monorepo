@@ -19,7 +19,7 @@
     "auth": {
       "type": "application",
       "root": "apps/auth",
-      "sourceRoot": "src",
+      "sourceRoot": "apps/auth/src",
       "entryFile": "main",
       "compilerOptions": {
         "tsConfigPath": "apps/auth/tsconfig.app.json"
