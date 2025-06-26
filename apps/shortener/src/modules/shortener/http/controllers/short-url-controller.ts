@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Req, Res, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, Req, Res, UseGuards } from "@nestjs/common";
 import { ShortenUrlUseCase } from "../../application/use-case/shorten-url.use-case";
 import { ShortenedLinkResponse, ShortenUrlRequest, ShortenUrlResponse } from "../../application/dto/shorten-url.dto";
 import { FindByShortCodeUseCase } from "../../application/use-case/find-by-short-code.use-case";
@@ -8,7 +8,7 @@ import { JwtValidatedUser } from "../../application/dto/jwt-validated-user.dto";
 import { FindByUserUseCase } from "../../application/use-case/find-by-user.use-case";
 import { DeleteByShortCodeUseCase } from "../../application/use-case/delete-by-short-code.use-case";
 import { AuthGuard } from "@nestjs/passport";
-import { UpdateOriginalUrlUseCase } from "../../application/use-case/update-url.use-case";
+import { UpdateUrlUseCase } from "../../application/use-case/update-url.use-case";
 
 @Controller()
 export class ShortUrlController {
@@ -17,7 +17,7 @@ export class ShortUrlController {
 		private readonly findByShortCodeUseCase: FindByShortCodeUseCase,
 		private readonly findByUserUseCase: FindByUserUseCase,
 		private readonly deleteByShortCodeUseCase: DeleteByShortCodeUseCase,
-		private readonly updateOriginalUrlUseCase: UpdateOriginalUrlUseCase,
+		private readonly updateUrlUseCase: UpdateUrlUseCase,
 	){}
 
 	@Post('/shorten')
@@ -31,6 +31,7 @@ export class ShortUrlController {
 	@Get('/:code')
 	async redirect(@Param('code') code: string, @Res() res: Response) {
   		const shortUrl = await this.findByShortCodeUseCase.execute(code);
+		await this.updateUrlUseCase.execute(shortUrl.id, { clickCount: shortUrl.clickCount++})
   		return res.redirect(shortUrl.originalUrl);
 	}
 
@@ -48,8 +49,8 @@ export class ShortUrlController {
 	
 	@UseGuards(AuthGuard)
 	@Put(':urlId')
-	async updateOriginalUrl(@Param('urlId') urlId: string, @Body() originalUrl: string): Promise<ShortenUrlResponse> {
-		return await this.updateOriginalUrlUseCase.execute(originalUrl, urlId);
+	async updateOriginalUrl(@Param('urlId') urlId: string, @Body() data: Partial<ShortenUrlResponse>): Promise<ShortenUrlResponse> {
+		return await this.updateUrlUseCase.execute(urlId, data);
 	}
 
 }

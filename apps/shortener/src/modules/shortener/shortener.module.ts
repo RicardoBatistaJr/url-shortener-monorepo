@@ -11,7 +11,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './infrastructure/strategies/jwt.strategy';
 import { DeleteByShortCodeUseCase } from './application/use-case/delete-by-short-code.use-case';
 import { FindByUserUseCase } from './application/use-case/find-by-user.use-case';
-import { UpdateOriginalUrlUseCase } from './application/use-case/update-url.use-case';
+import { UpdateUrlUseCase } from './application/use-case/update-url.use-case';
 
 @Module({
   imports: [
@@ -29,7 +29,7 @@ import { UpdateOriginalUrlUseCase } from './application/use-case/update-url.use-
 	FindByShortCodeUseCase,
 	FindByUserUseCase,
 	DeleteByShortCodeUseCase,
-	UpdateOriginalUrlUseCase,
+	UpdateUrlUseCase,
   ],
 })
 export class ShortenerModule {}

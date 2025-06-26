@@ -8,5 +8,5 @@ export abstract class ShortUrlRepository{
 	abstract findByUser(userId: string): Promise<ShortenUrlResponse[]>;
 	abstract findByUserIdAndShortCode(userId: string, shortCode: string): Promise<ShortenUrlResponse>;
 	abstract softDeleteByRecord(record: ShortenUrlResponse):Promise<void>;
-	abstract updateOriginalUrl(id: string, updatedUrl: string):Promise<ShortenUrlResponse>
+	abstract updateUrl(id: string, data: Partial<ShortenUrlResponse>): Promise<ShortenUrlResponse>;
 }

@@ -51,10 +51,10 @@ export class PrismaShortUrlRepository implements ShortUrlRepository {
   		});
 	}
 
-	async updateOriginalUrl(id: string, updatedUrl: string):Promise<ShortenUrlResponse>{
-		return await this.prisma.shortUrl.update({
-			where: { id, deletedAt:null },
-			data:{ originalUrl: updatedUrl}
-		})
+	async updateUrl(id: string, data: Partial<ShortenUrlResponse>): Promise<ShortenUrlResponse> {
+	return await this.prisma.shortUrl.update({
+		where: { id, deletedAt: null },
+		data,
+	});
 	}
 }
